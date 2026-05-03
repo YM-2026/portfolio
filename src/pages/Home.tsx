@@ -1,3 +1,4 @@
+import { useState, type FormEvent } from 'react';
 import { motion } from 'motion/react';
 import { cn } from '@/src/lib/utils';
 
@@ -166,6 +167,38 @@ const About = () => {
 // Removed Works component as per 3-section request
 
 const Contact = () => {
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
+  const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+  const [errorMessage, setErrorMessage] = useState('');
+
+  async function handleSubmit(e: FormEvent) {
+    e.preventDefault();
+    setStatus('sending');
+    setErrorMessage('');
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, message }),
+      });
+      const data = (await res.json().catch(() => ({}))) as { error?: string };
+      if (!res.ok) {
+        setStatus('error');
+        setErrorMessage(data.error ?? 'Something went wrong.');
+        return;
+      }
+      setStatus('sent');
+      setName('');
+      setEmail('');
+      setMessage('');
+    } catch {
+      setStatus('error');
+      setErrorMessage('Network error. Please try again.');
+    }
+  }
+
   return (
     <section className="py-64 px-6 md:px-12 border-t border-bau-navy/10 flex flex-col items-center text-center" id="contact">
       <motion.span 
@@ -175,14 +208,81 @@ const Contact = () => {
       >
         Have a project?
       </motion.span>
-      <motion.a 
-        href="mailto:studio@selflux.art"
+      <motion.h2 
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
-        className="font-serif text-6xl md:text-9xl italic tracking-tighter hover:opacity-50 transition-opacity"
+        className="font-serif text-5xl md:text-8xl italic tracking-tighter mb-16"
       >
-        Get in touch
-      </motion.a>
+        Contact me
+      </motion.h2>
+
+      <motion.form
+        initial={{ opacity: 0, y: 16 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        onSubmit={handleSubmit}
+        className="w-full max-w-md flex flex-col gap-6 text-left"
+      >
+        <label className="flex flex-col gap-2 text-[10px] uppercase tracking-widest opacity-60">
+          Name
+          <input
+            required
+            name="name"
+            autoComplete="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            className="bg-transparent border border-bau-navy/20 px-4 py-3 text-base font-sans normal-case tracking-normal text-bau-navy placeholder:text-bau-navy/30 focus:outline-none focus:border-bau-navy/50 transition-colors"
+            placeholder="Your name"
+          />
+        </label>
+        <label className="flex flex-col gap-2 text-[10px] uppercase tracking-widest opacity-60">
+          Email
+          <input
+            required
+            type="email"
+            name="email"
+            autoComplete="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="bg-transparent border border-bau-navy/20 px-4 py-3 text-base font-sans normal-case tracking-normal text-bau-navy placeholder:text-bau-navy/30 focus:outline-none focus:border-bau-navy/50 transition-colors"
+            placeholder="you@example.com"
+          />
+        </label>
+        <label className="flex flex-col gap-2 text-[10px] uppercase tracking-widest opacity-60">
+          Message
+          <textarea
+            required
+            name="message"
+            rows={5}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            className="bg-transparent border border-bau-navy/20 px-4 py-3 text-base font-sans normal-case tracking-normal text-bau-navy placeholder:text-bau-navy/30 focus:outline-none focus:border-bau-navy/50 transition-colors resize-y min-h-[120px]"
+            placeholder="Tell me about your project…"
+          />
+        </label>
+
+        {status === 'error' && (
+          <p className="text-sm text-red-700 dark:text-red-400" role="alert">
+            {errorMessage}
+          </p>
+        )}
+        {status === 'sent' && (
+          <p className="text-sm opacity-70" role="status">
+            Thanks — your message was sent. I’ll get back to you soon.
+          </p>
+        )}
+
+        <button
+          type="submit"
+          disabled={status === 'sending'}
+          className={cn(
+            'mt-2 py-4 text-[10px] uppercase tracking-[0.35em] border border-bau-navy/30 transition-colors',
+            'hover:bg-bau-navy hover:text-bau-yellow disabled:opacity-40 disabled:pointer-events-none',
+            'theme-reverse:hover:bg-bau-yellow theme-reverse:hover:text-bau-navy',
+          )}
+        >
+          {status === 'sending' ? 'Sending…' : 'Submit'}
+        </button>
+      </motion.form>
     </section>
   );
 };
