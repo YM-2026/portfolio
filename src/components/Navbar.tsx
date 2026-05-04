@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 
 const navItems = [
   { name: 'Index', id: 'hero' },
-  { name: 'About', id: 'about' },
+  { name: 'About Me', id: 'about' },
   { name: 'Contact', id: 'contact' },
 ];
 
@@ -49,7 +49,7 @@ export const Navbar = () => {
               key={item.name}
               onClick={() => scrollToSection(item.id)}
               className={cn(
-                "px-5 py-2 rounded-full text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 cursor-pointer",
+                "px-4 py-2 rounded-full text-xs font-medium uppercase tracking-[0.15em] transition-all duration-300 cursor-pointer whitespace-nowrap",
                 isActive 
                   ? "bg-bau-navy text-bau-yellow" 
                   : "hover:bg-bau-navy/10 text-bau-navy"

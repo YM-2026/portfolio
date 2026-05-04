@@ -44,32 +44,33 @@ const Hero = () => {
         variants={containerVars}
         initial="initial"
         animate="animate"
-        className="relative z-10"
+        className="relative z-10 w-full flex flex-col gap-2"
       >
         <div className="overflow-hidden">
           <motion.h1 
             variants={itemVars}
-            className="font-serif text-[clamp(3rem,8vw,8rem)] leading-[0.85] italic tracking-tighter"
+            className="font-serif text-[clamp(3rem,8vw,8rem)] leading-[0.85] italic tracking-tighter text-left"
           >
             Welcome to
           </motion.h1>
         </div>
-        <div className="overflow-hidden mt-2">
+        <div className="overflow-hidden flex justify-end">
           <motion.h2 
             variants={itemVars}
-            className="font-serif text-[clamp(4rem,12vw,10rem)] leading-[0.85] pl-[5vw] tracking-tighter"
+            className="font-serif text-[clamp(4rem,12vw,10rem)] leading-[0.9] tracking-tighter text-left pb-2"
           >
             Agnès's website
           </motion.h2>
         </div>
       </motion.div>
 
-      <motion.div
-        className="absolute right-0 top-1/2 -translate-y-1/2 w-[40vw] h-[40vw] bg-bau-navy rounded-full z-0 opacity-10 blur-3xl md:blur-none md:opacity-100"
+      <motion.img
+        src="/profile.jpg"
+        alt="Agnès"
+        className="absolute right-0 top-1/2 -translate-y-1/2 w-[40vw] h-[40vw] object-cover z-0 opacity-90 md:opacity-100"
         animate={{
-          scale: [1, 1.1, 1],
-          rotate: [0, 5, -5, 0],
-          y: ["-50%", "-48%", "-52%", "-50%"]
+          scale: [1, 1.05, 1],
+          rotate: [0, 2, -2, 0],
         }}
         transition={{
           duration: 20,
@@ -81,84 +82,96 @@ const Hero = () => {
         }}
       />
       
-      <div className="absolute bottom-12 left-6 md:left-12 flex items-center gap-4">
-        <div className="h-[1px] w-24 bg-bau-navy/30" />
-        <span className="text-[10px] uppercase tracking-[0.5em] font-medium opacity-50">SCROLL TO DISCOVER</span>
-      </div>
     </section>
   );
 };
 
 const About = () => {
   return (
-    <section className="py-48 px-6 md:px-12 border-t border-bau-navy/10" id="about">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-24">
-        <div className="md:col-span-8">
-          <motion.h3 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="font-serif text-6xl md:text-8xl italic mb-20 tracking-tighter"
-          >
-            Agnès.
-          </motion.h3>
-          
-          <div className="space-y-32">
-            {/* Work Experience */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h4 className="text-[10px] uppercase tracking-[0.4em] opacity-40 mb-12 border-b border-bau-navy/10 pb-4">Work Experience</h4>
-              <div className="space-y-12">
-                {[
-                  { role: "Senior Designer", company: "Bauhaus Studio", period: "2023 — Present" },
-                  { role: "Visual Architect", company: "Artisans Collective", period: "2021 — 2023" },
-                  { role: "Junior Creator", company: "Modernist Lab", period: "2019 — 2021" }
-                ].map((job, i) => (
-                  <div key={i} className="flex justify-between items-baseline group">
-                    <div>
-                      <div className="font-serif text-3xl md:text-5xl tracking-tight group-hover:italic transition-all">{job.role}</div>
-                      <div className="text-sm opacity-60 mt-1 uppercase tracking-widest">{job.company}</div>
-                    </div>
-                    <div className="text-xs font-medium opacity-40">{job.period}</div>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
-
-            {/* Hobbies */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-            >
-              <h4 className="text-[10px] uppercase tracking-[0.4em] opacity-40 mb-12 border-b border-bau-navy/10 pb-4">Interests & Hobbies</h4>
-              <div className="flex flex-wrap gap-x-12 gap-y-6">
-                {["Minimalist Architecture", "Analog Photography", "Swiss Typography", "Avant-garde Cinema", "Contemporary Art", "Brutalist Design", "Vinyl Collecting"].map((hobby, i) => (
-                  <span key={i} className="font-serif text-2xl md:text-4xl italic opacity-80 hover:opacity-100 transition-opacity">
-                    {hobby}{i !== 6 ? "," : "."}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
+    <section className="py-24 px-6 md:px-12 border-t border-bau-navy/10" id="about">
+      <motion.h3 
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        className="font-serif text-6xl md:text-8xl italic mb-24 tracking-tighter"
+      >
+        Agnès.
+      </motion.h3>
+      
+      <div className="space-y-32">
+        {/* 职业经历 */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24 items-center"
+        >
+          <div className="md:col-span-7">
+            <h4 className="font-serif text-4xl md:text-6xl italic mb-6 text-black">职业经历</h4>
+            <p className="font-serif text-3xl md:text-5xl leading-tight">
+              投融资、资本市场律师
+            </p>
           </div>
-        </div>
-        
-        <div className="md:col-span-4 hidden md:block">
-           <motion.div 
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true }}
-            className="aspect-[3/4] bg-bau-navy border-4 border-bau-navy relative overflow-hidden"
-           >
-              <div className="absolute inset-0 opacity-20 bg-[url('https://images.unsplash.com/photo-1544391439-1df5c17ad28c?auto=format&fit=crop&q=80&w=1000')] bg-cover bg-center grayscale" />
-              <div className="absolute inset-0 flex items-center justify-center">
-                 <div className="w-1/2 h-1/2 border-2 border-bau-yellow rounded-full animate-pulse" />
-              </div>
-           </motion.div>
-        </div>
+          <div className="md:col-span-5">
+            <div className="aspect-[3/4] bg-bau-navy border-4 border-bau-navy relative overflow-hidden">
+              <img 
+                src="/career.jpg" 
+                alt="职业照" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </motion.div>
+
+        {/* 小宇宙 */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24 items-center"
+        >
+          <div className="md:col-span-5 md:order-1 order-2">
+            <div className="aspect-[3/4] bg-bau-navy border-4 border-bau-navy relative overflow-hidden">
+              <img 
+                src="/xiaoyuzhou.jpg" 
+                alt="小宇宙" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+          <div className="md:col-span-7 md:order-2 order-1">
+            <h4 className="font-serif text-4xl md:text-6xl italic mb-6 text-blue-600">我最喜欢的产品</h4>
+            <p className="font-serif text-3xl md:text-5xl leading-tight">
+              小宇宙<br />
+              <span className="text-xl md:text-3xl opacity-70">打开新世界，让我链接到很多好的内容、好的人</span>
+            </p>
+          </div>
+        </motion.div>
+
+        {/* 网球 */}
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-24 items-center"
+        >
+          <div className="md:col-span-7">
+            <h4 className="font-serif text-4xl md:text-6xl italic mb-6 text-pink-500">我最喜欢的运动</h4>
+            <p className="font-serif text-3xl md:text-5xl leading-tight">
+              网球<br />
+              <span className="text-xl md:text-3xl opacity-70">你打不出你性格里没有的东西</span>
+            </p>
+          </div>
+          <div className="md:col-span-5">
+            <div className="aspect-[3/4] bg-bau-navy border-4 border-bau-navy relative overflow-hidden">
+              <img 
+                src="/tennis.jpg" 
+                alt="网球" 
+                className="w-full h-full object-cover"
+              />
+            </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
@@ -206,7 +219,7 @@ const Contact = () => {
         whileInView={{ opacity: 1 }}
         className="text-[10px] uppercase tracking-[0.5em] mb-8 opacity-50"
       >
-        Have a project?
+        Get to know me better
       </motion.span>
       <motion.h2 
         initial={{ opacity: 0, y: 20 }}
